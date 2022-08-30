@@ -301,4 +301,10 @@ function remove(){
     done.forEach((item) =>{
         item.remove()
     })
+    board.classList.remove("boardP4")
+    piecesCon.classList.remove("boardP4")
+    board.classList.remove("boardP6")
+    piecesCon.classList.remove("boardP6")
+    board.classList.remove("boardP9")
+    piecesCon.classList.remove("boardP9")
   }
