@@ -140,9 +140,7 @@ hard.addEventListener("click", () => {
 
 playAgain.addEventListener("click", () => {
     final.classList.add("hide")
-    game.classList.remove("hide")
-    puzzleSelected = null
-    Spawn()
+    selection.classList.remove("hide")
 })
 
 function Spawn(){
