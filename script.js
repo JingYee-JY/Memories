@@ -15,6 +15,11 @@ let rows;
 let columns;
 let endpuzzle;
 
+var checkP1
+var checkP2
+var checkP3
+
+
 puzzle1Easy = [
     {number: 1, image: "./img/Puzzle 1_E1.png"},
     {number: 2, image: "./img/Puzzle 1_E2.png"},
@@ -215,6 +220,8 @@ function Spawn(){
             let number = tile.getAttribute("data")
             
             asignButton.addEventListener("click", () => {
+                console.log(puzzleNumber)
+                console.log(number)
                 if(puzzleNumber == null & !asignButton.classList.contains("question")) {return}
                 if(puzzleNumber == number & asignButton.classList.contains("question")){
                     puzzleSelected.classList.add("right")
@@ -253,12 +260,17 @@ function Spawn(){
         tile.classList.add(currentClass)
         tile.setAttribute("data", pieces[i].number)
 
+
+        let currentCheck = "checkP" + (i + 1)
+
+        window[currentCheck] = pieces[i].number
+
         piecesCon.append(tile)
 
         let asignButton = document.querySelector(`.${currentClass}`)
-        let puzzleNo = tile.getAttribute("data")
 
         asignButton.addEventListener("click", () => {
+            let puzzleNo = tile.getAttribute("data")
                 if(puzzleSelected == currentClass){
                     puzzleSelected = null
                     puzzleNumber = null
@@ -276,21 +288,28 @@ function Spawn(){
         })
     }
 
+    console.log(checkP1)
+    console.log(checkP2)
+    console.log(checkP3)
+
     for(let o = 0; o < endpuzzle; o++){
         let value = (Math.floor(Math.random() * puzzlePieces.length) + 1)
         let puzzleValue = (Math.floor(Math.random() * 3) + 1)
-        
+
         let questionPuzzle = "guide" + value
         let answerPuzzle = "puzzle" + puzzleValue
         
         let questionButton = document.querySelector(`.${questionPuzzle}`)
         let answerButton = document.querySelector(`.${answerPuzzle}`)
         
-        if(questionButton.classList.contains("question") || questionButton.classList.contains("change")){
+        let getQuestionData = questionButton.getAttribute("data")
+
+        if(questionButton.classList.contains("question") || answerButton.classList.contains("change")){
             o--
         }
-        if(!questionButton.classList.contains("question") & !questionButton.classList.contains("change")){
+        if(!questionButton.classList.contains("question")  && !answerButton.classList.contains("change")){
             questionButton.classList.add("question")
+            if(checkP1 != getQuestionData && checkP2 != getQuestionData && checkP3 != getQuestionData){
             answerButton.classList.add("change")
             let image = questionButton.src
 
@@ -298,8 +317,9 @@ function Spawn(){
 
             console.log(questionButton.src)
             console.log(answerButton)
-            let getQuestionData = questionButton.getAttribute("data")
+            
             answerButton.setAttribute("data", getQuestionData)
+           }
         }
     }
 
