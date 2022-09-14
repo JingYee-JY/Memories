@@ -4,51 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" 
+    href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
     <title>Memories</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <div class="start">
         <!--added game-title-->
-        <div class="game-title">
-            <img class="title" src="./img/title.png">
-        </div>
-        <img class="image" src="./img/Puzzle 1_ Old Clarke Quay.png">
+        <div class="game-title"><p>Memories</p></div>
+        <img class="image" src="./img/preview.png">
         <button class="startButton">
-            <img class="startbtn" src="./img/start.png">
+            <p class="words"><img src="./img/arrow.png" class="arrowHead"> START GAME</p>
         </button>
     </div>
     <div class="selection hide">
-        <div class="game-title">
-            <img class="title" src="./img/title.png">
+        <div class="game-title"><p>Memories</p></div>
+        <div class="choice">
+            <p>Select Difficulty</p>
+            <button class="easy"><p>Easy</p></button>
+            <button class="normal"><p>Normal</p></button>
+            <button class="hard"><p>Hard</p></button>
         </div>
-        <button class="easy">
-            <img class="startbtn" src="./img/easy.png">
-        </button>
-        <button class="normal">
-            <img class="startbtn" src="./img/normal.png">
-        </button>
-        <button class="hard">
-            <img class="startbtn" src="./img/hard.png">
-        </button>
     </div>
     <div class="game hide">
-        <div id="board">
-        </div>
         <div class="instruction">
-            <p>Tap the puzzle below and tap into the picture above</p>
+            <p>Tap the right puzzle into the picture</p>
+        </div>
+        <div id="board">
         </div>
         <div id="pieces">
         </div>
     </div>
     <div class="final hide">
-        <img class="title" src="./img/title.png">
-        <img class="end">
-        <p class="name"></p>
-        <img class="tick" src="./img/complete.png">
-        <button class="againButton">
-            <img class="startbtn" src="./img/PlayAgain.png">
-        </button>
+        <div class="game-title"><p>Memories</p></div>
+        <img class="end" src="./img/wellDone.png">
+        <div class="buttons">
+            <button class="againButton">
+                <p class="words"><img src="./img/again.png" class="arrowHead">Play again</p>
+            </button>
+            <button class="homeButton">
+                <p class="words"><img src="./img/home.png" class="arrowHead">Home</p>
+            </button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

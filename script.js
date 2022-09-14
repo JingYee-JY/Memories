@@ -8,9 +8,8 @@ const game = document.querySelector(".game")
 const board = document.getElementById("board")
 const piecesCon = document.getElementById("pieces")
 const playAgain = document.querySelector(".againButton")
+const home = document.querySelector(".homeButton")
 const final = document.querySelector(".final");
-const pName = document.querySelector(".name");
-const end = document.querySelector(".end");
 
 let rows;
 let columns;
@@ -140,6 +139,14 @@ hard.addEventListener("click", () => {
 
 playAgain.addEventListener("click", () => {
     final.classList.add("hide")
+    game.classList.remove("hide")
+    puzzleSelected = null
+    puzzleNumber = null
+    Spawn()
+})
+
+home.addEventListener("click", () => {
+    final.classList.add("hide")
     selection.classList.remove("hide")
 })
 
@@ -150,50 +157,42 @@ function Spawn(){
     if(puzzle == 4){
         if(randomPuzzle == 0){
             puzzlePieces = puzzle1Easy
-            endpuzzle = {total: 4, name: "Old Clarke Quay", image: "./img/Puzzle 1_ Old Clarke Quay.png" }
         }
         if(randomPuzzle == 1){
-            puzzlePieces = puzzle2Easy
-            endpuzzle = {total: 4, name: "Gameboy", image: "./img/Puzzle 2_ Gameboy.png" }
+            puzzlePieces = puzzle2Easy    
         }
         if(randomPuzzle == 2){
             puzzlePieces = puzzle3Easy
-            endpuzzle = {total: 4, name: "Haw Flakes", image: "./img/Puzzle 3_ Haw Flakes.png" }
         }
+        endpuzzle = 1
         board.classList.add("boardP4")
-        piecesCon.classList.add("boardP4")
     }
     if(puzzle == 6){
         if(randomPuzzle == 0){
             puzzlePieces = puzzle1Normal
-            endpuzzle = {total: 6, name: "Old Clarke Quay", image: "./img/Puzzle 1_ Old Clarke Quay.png" }
         }
         if(randomPuzzle == 1){
             puzzlePieces = puzzle2Normal
-            endpuzzle = {total: 6, name: "Gameboy", image: "./img/Puzzle 2_ Gameboy.png" }
         }
         if(randomPuzzle == 2){
             puzzlePieces = puzzle3Normal
-            endpuzzle = {total: 6, name: "Haw Flakes", image: "./img/Puzzle 3_ Haw Flakes.png" }
         }
+        endpuzzle = 2
         board.classList.add("boardP6")
-        piecesCon.classList.add("boardP6")
     }
     if(puzzle == 9){
         if(randomPuzzle == 0){
             puzzlePieces = puzzle1Hard
-            endpuzzle = {total: 9, name: "Old Clarke Quay", image: "./img/Puzzle 1_ Old Clarke Quay.png" }
         }
         if(randomPuzzle == 1){
             puzzlePieces = puzzle2Hard
-            endpuzzle = {total: 9, name: "Gameboy", image: "./img/Puzzle 2_ Gameboy.png" }
+            
         }
         if(randomPuzzle == 2){
             puzzlePieces = puzzle3Hard
-            endpuzzle = {total: 9, name: "Haw Flakes", image: "./img/Puzzle 3_ Haw Flakes.png" }
         }
+        endpuzzle = 3
         board.classList.add("boardP9")
-        piecesCon.classList.add("boardP9")
     }
 
 
@@ -216,8 +215,8 @@ function Spawn(){
             let number = tile.getAttribute("data")
             
             asignButton.addEventListener("click", () => {
-                if(puzzleNumber == null) {return}
-                if(puzzleNumber == number){
+                if(puzzleNumber == null & !asignButton.classList.contains("question")) {return}
+                if(puzzleNumber == number & asignButton.classList.contains("question")){
                     puzzleSelected.classList.add("right")
                     asignButton.style.opacity = "1";
                     asignButton.classList.add("done")
@@ -246,16 +245,19 @@ function Spawn(){
         pieces[j] = tmp
     }
 
-    for (let i = 0; i < pieces.length; i ++){
+    for (let i = 0; i < 3; i ++){
         let currentClass = "puzzle" + (i + 1)
 
         let tile = document.createElement("img")
         tile.src = pieces[i].image
         tile.classList.add(currentClass)
+        tile.setAttribute("data", pieces[i].number)
 
         piecesCon.append(tile)
 
         let asignButton = document.querySelector(`.${currentClass}`)
+        let puzzleNo = tile.getAttribute("data")
+
         asignButton.addEventListener("click", () => {
                 if(puzzleSelected == currentClass){
                     puzzleSelected = null
@@ -268,39 +270,56 @@ function Spawn(){
                         puzzleSelected.style.border = ""
                     }
                     puzzleSelected = asignButton
-                    puzzleNumber = pieces[i].number
+                    puzzleNumber = puzzleNo
                     asignButton.style.border = "solid 5px black"
                 }
         })
     }
+
+    for(let o = 0; o < endpuzzle; o++){
+        let value = (Math.floor(Math.random() * puzzlePieces.length) + 1)
+        let puzzleValue = (Math.floor(Math.random() * 3) + 1)
+        
+        let questionPuzzle = "guide" + value
+        let answerPuzzle = "puzzle" + puzzleValue
+        
+        let questionButton = document.querySelector(`.${questionPuzzle}`)
+        let answerButton = document.querySelector(`.${answerPuzzle}`)
+        
+        if(questionButton.classList.contains("question") || questionButton.classList.contains("change")){
+            o--
+        }
+        if(!questionButton.classList.contains("question") & !questionButton.classList.contains("change")){
+            questionButton.classList.add("question")
+            answerButton.classList.add("change")
+            let image = questionButton.src
+
+            answerButton.src = image
+
+            console.log(questionButton.src)
+            console.log(answerButton)
+            let getQuestionData = questionButton.getAttribute("data")
+            answerButton.setAttribute("data", getQuestionData)
+        }
+    }
+
 }
 
 function Check(){
     let correct = document.querySelectorAll(".done")
-    console.log(endpuzzle.total)
-        if(correct.length == endpuzzle.total){
+        if(correct.length == endpuzzle){
             let delay = setTimeout(() => {
-                startGame = false
                 remove()
                 final.classList.remove("hide")
                 game.classList.add("hide")
-                pName.innerHTML = `<u>${endpuzzle.name}</u>`
-                end.src = endpuzzle.image
-            }, 1000);
+            }, 500);
             
         }
 }
 
 function remove(){
-    let right = document.querySelectorAll(".right")
-    let done = document.querySelectorAll(".done")
-
-    right.forEach((item) =>{
-        item.remove()
-    })
-    done.forEach((item) =>{
-        item.remove()
-    })
+    removeAllChildNodes(board)
+    removeAllChildNodes(pieces)
     board.classList.remove("boardP4")
     piecesCon.classList.remove("boardP4")
     board.classList.remove("boardP6")
@@ -308,3 +327,9 @@ function remove(){
     board.classList.remove("boardP9")
     piecesCon.classList.remove("boardP9")
   }
+
+  function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
