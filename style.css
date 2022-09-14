@@ -28,7 +28,7 @@ body {
 }
 
 .game-title p {
-    font-size: 50px;
+    font-size: 50px !important;
     color: #552E00;
 }
 
@@ -219,11 +219,6 @@ button{
     padding: 0px 40px;
 }
 
-.instruction p {
-    margin-top: 10px;
-    margin-bottom: 0px;
-}
-
 .right{
     opacity: 0%;
 }
@@ -267,83 +262,110 @@ button{
     .logo{
         max-width: 250px;
     }
-    .title{
-    padding: 5% 15%;
+    .game-title p{
+        font-size: 70px !important;
+    }
+    .start{
+        gap: 125px;
+    }
+    .selection p{
+        font-size: 35px;
+        color: #552E00;
+    }
+    .instruction p {
+        font-size: 40px;
     }
     .question{
         font-size: 32px;
     }
-    button.playAgain{
-        max-width: 450px;
+    .startButton{
+        padding: 3% 2.5%;
+        max-width: 350px;
     }
     .final .end{
         max-width: 450px;
     }
+
     #board{
-        width: 600px;
-        height: 600px;
+        width: 510px;
+        height: 510px;
         margin: 20px auto;
-        gap: 1%;
+        gap: 3%;
         display: flex;
         flex-wrap: wrap;
     }
 
     #pieces{
-        width: 600px;
-        height: 600px;
+        width: 700px;
+        height: auto;
         gap: 1%;
-        padding: 5px;
+        padding: 15px s10px;
         margin: 0 auto;
         display: grid;
         flex-wrap: wrap;
-        margin-bottom: 20px;
+        margin-top: 100px;
+        grid-template-columns: repeat(3, 230px) !important;
+    }
+
+    #pieces img{
+        justify-self: center;
+        cursor: pointer;
+        box-sizing:border-box;
+        width: 200px !important;
+        height: auto;
     }
     
     .boardP4{
-        grid-template-columns: repeat(2, 300px) !important;
-        grid-template-rows: repeat(2, 300px) !important;
+        grid-template-columns: repeat(2, 250px) !important;
+        grid-template-rows: repeat(2, 250px) !important;
     }
     
     .boardP4 img{
-        width: 297px !important;
-        height: 297px !important;
+        width: 247px !important;
+        height: 247px !important;
     }
     
     .boardP6{
-        grid-template-columns: repeat(3, 200px) !important;
-        grid-template-rows: repeat(2, 300px) !important;
+        grid-template-columns: repeat(3, 165px) !important;
+        grid-template-rows: repeat(2, 250px) !important;
     }
     
     .boardP6 img{
-        width: 196px !important;
-        height: 297px !important;
+        width: 159px !important;
+        height: 247px !important;
     }
     
     .boardP9{
-        grid-template-columns: repeat(3, 200px) !important;
-        grid-template-rows: repeat(3, 200px) !important;
+        grid-template-columns: repeat(3, 165px) !important;
+        grid-template-rows: repeat(3, 165px) !important;
     }
     
     .boardP9 img{
-        width: 196px !important;
-        height: 196px !important;
+        width: 159px !important;
+        height: 159px !important;
     }
-
 }
 
 /*desktop*/
 @media screen and (min-width:1200px){
-    .start, .game, .final{
-        max-width: 500px;
+    .start,.selection, .game, .final{
+        max-width: 400px;
         margin: 0 auto;
     }
-    button.playAgain{
-        max-width: 260px;
+    .playAgain, .startButton{
+        padding: 3.5%;
+        max-width: 225px;
     }
-    .startbtn{
-        max-width: 260px;
+    .startButton{
+        margin-top: 30px;
     }
     .final .end{
         max-width: 360px;
+    }
+    #pieces{
+        margin-top: 50px;
+    }
+    .final .end{
+        margin-bottom: 20px;
     }
 }
