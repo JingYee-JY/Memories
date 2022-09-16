@@ -297,8 +297,8 @@ function Spawn(){
         let answerButton = document.querySelector(`.${answerPuzzle}`)
         
         let getQuestionData = questionButton.getAttribute("data")
-        console.log(questionButton)
-        console.log(o)
+        console.log(questionButton,o)
+        console.log(checkP1, checkP2,checkP3)
         if(questionButton.classList.contains("question") || answerButton.classList.contains("change")){
             o--
             console.log("T")
@@ -307,12 +307,12 @@ function Spawn(){
             questionButton.classList.add("question")
             if(checkP1 == getQuestionData){
                 let btn = document.querySelector(".puzzle1")
-                btn.classList.add("change")
+                answerButton.classList.add("change")
                 console.log("1")
             }
             if(checkP2 == getQuestionData){
                 let btn = document.querySelector(".puzzle2")
-                btn.classList.add("change")
+                answerButton.classList.add("change")
                 console.log("2")
             }
             if(checkP3 == getQuestionData){
@@ -325,7 +325,15 @@ function Spawn(){
             let image = questionButton.src
 
             answerButton.src = image
-            
+            if(puzzleValue == 1){
+                checkP1 = parseInt(getQuestionData)
+            }
+            if(puzzleValue == 2){
+                checkP2 = parseInt(getQuestionData)
+            }
+            if(puzzleValue == 3){
+                checkP3 = parseInt(getQuestionData)
+            }
             answerButton.setAttribute("data", getQuestionData)
            }
         }
