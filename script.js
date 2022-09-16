@@ -307,17 +307,17 @@ function Spawn(){
             questionButton.classList.add("question")
             if(checkP1 == getQuestionData){
                 let btn = document.querySelector(".puzzle1")
-                answerButton.classList.add("change")
+                btn.classList.add("change")
                 console.log("1")
             }
             if(checkP2 == getQuestionData){
                 let btn = document.querySelector(".puzzle2")
-                answerButton.classList.add("change")
+                btn.classList.add("change")
                 console.log("2")
             }
             if(checkP3 == getQuestionData){
                 let btn = document.querySelector(".puzzle3")
-                answerButton.classList.add("change")
+                btn.classList.add("change")
                 console.log("3")
             }
             if(checkP1 != getQuestionData && checkP2 != getQuestionData && checkP3 != getQuestionData){
