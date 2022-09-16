@@ -220,8 +220,6 @@ function Spawn(){
             let number = tile.getAttribute("data")
             
             asignButton.addEventListener("click", () => {
-                console.log(puzzleNumber)
-                console.log(number)
                 if(puzzleNumber == null & !asignButton.classList.contains("question")) {return}
                 if(puzzleNumber == number & asignButton.classList.contains("question")){
                     puzzleSelected.classList.add("right")
@@ -288,10 +286,6 @@ function Spawn(){
         })
     }
 
-    console.log(checkP1)
-    console.log(checkP2)
-    console.log(checkP3)
-
     for(let o = 0; o < endpuzzle; o++){
         let value = (Math.floor(Math.random() * puzzlePieces.length) + 1)
         let puzzleValue = (Math.floor(Math.random() * 3) + 1)
@@ -303,20 +297,34 @@ function Spawn(){
         let answerButton = document.querySelector(`.${answerPuzzle}`)
         
         let getQuestionData = questionButton.getAttribute("data")
-
+        console.log(questionButton)
+        console.log(o)
         if(questionButton.classList.contains("question") || answerButton.classList.contains("change")){
             o--
+            console.log("T")
         }
         if(!questionButton.classList.contains("question")  && !answerButton.classList.contains("change")){
             questionButton.classList.add("question")
+            if(checkP1 == getQuestionData){
+                let btn = document.querySelector(".puzzle1")
+                answerButton.classList.add("change")
+                console.log("1")
+            }
+            if(checkP2 == getQuestionData){
+                let btn = document.querySelector(".puzzle2")
+                answerButton.classList.add("change")
+                console.log("2")
+            }
+            if(checkP3 == getQuestionData){
+                let btn = document.querySelector(".puzzle3")
+                answerButton.classList.add("change")
+                console.log("3")
+            }
             if(checkP1 != getQuestionData && checkP2 != getQuestionData && checkP3 != getQuestionData){
             answerButton.classList.add("change")
             let image = questionButton.src
 
             answerButton.src = image
-
-            console.log(questionButton.src)
-            console.log(answerButton)
             
             answerButton.setAttribute("data", getQuestionData)
            }
