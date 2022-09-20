@@ -152,7 +152,7 @@ playAgain.addEventListener("click", () => {
 
 home.addEventListener("click", () => {
     final.classList.add("hide")
-    selection.classList.remove("hide")
+    start.classList.remove("hide")
 })
 
 function Spawn(){
