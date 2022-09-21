@@ -5,6 +5,7 @@ const easy = document.querySelector(".easy")
 const normal = document.querySelector(".normal")
 const hard = document.querySelector(".hard")
 const game = document.querySelector(".game")
+const round = document.querySelector(".round")
 const board = document.getElementById("board")
 const piecesCon = document.getElementById("pieces")
 const playAgain = document.querySelector(".againButton")
@@ -19,6 +20,8 @@ var checkP1
 var checkP2
 var checkP3
 
+let rounds;
+let totalRound;
 
 puzzle1Easy = [
     {number: 1, image: "./img/Puzzle 1_E1.png"},
@@ -107,6 +110,8 @@ puzzle3Hard = [
 startButton.addEventListener("click", () => {
     start.classList.add("hide")
     selection.classList.remove("hide")
+    totalRound = 3
+    rounds = 0
 })
 
 easy.addEventListener("click", () => {
@@ -145,6 +150,7 @@ hard.addEventListener("click", () => {
 playAgain.addEventListener("click", () => {
     final.classList.add("hide")
     game.classList.remove("hide")
+    rounds = 0
     puzzleSelected = null
     puzzleNumber = null
     Spawn()
@@ -156,6 +162,10 @@ home.addEventListener("click", () => {
 })
 
 function Spawn(){
+
+    rounds += 1;
+
+    round.innerHTML = `<p>${rounds}/${totalRound}</p>`
     let randomPuzzle = Math.floor(Math.random() * 3);
     let puzzlePieces
 
@@ -345,12 +355,20 @@ function Spawn(){
 function Check(){
     let correct = document.querySelectorAll(".done")
         if(correct.length == endpuzzle){
-            let delay = setTimeout(() => {
-                remove()
-                final.classList.remove("hide")
-                game.classList.add("hide")
-            }, 500);
-            
+            if(rounds == totalRound){
+                let delay = setTimeout(() => {
+                    remove()
+                    final.classList.remove("hide")
+                    game.classList.add("hide")
+                }, 500);
+                return
+            }
+            else{
+                let delay = setTimeout(() => {
+                    remove()
+                    Spawn()
+                }, 500);
+            }
         }
 }
 
