@@ -4,73 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable =no">
-    <title>Hu La</title>
     <link rel="stylesheet" 
-    href="https://fonts.googleapis.com/css?family=Lilita One">
+    href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
+    <title>Memories</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="start-container">
-        <img class="title" src="./img/title.png">
-        <img class="preview "src="./img/preview.png">
-        <button class="start">
-            <img class="btn" src="./img/startGame.png">
+    <div class="start">
+        <!--added game-title-->
+        <div class="game-title"><p>Memories</p></div>
+        <img class="image" src="./img/preview.png">
+        <button class="startButton">
+            <p class="words"><img src="./img/arrow.png" class="arrowHead"> START GAME</p>
         </button>
     </div>
-    <div class="difficulty hide">
-        <img class="select-title" src="./img/title.png">
-        <img class="select-difficulty" src="./img/selectdifficulty.png">
-        <button class="easy">
-            <img  class="btn" src="./img/easy.png">
-        </button>
-        <button class="normal">
-            <img  class="btn" src="./img/normal.png">
-        </button>
-        <button class="hard">
-            <img  class="btn" src="./img/hard.png">
-        </button>
+    <div class="selection hide">
+        <div class="game-title"><p>Memories</p></div>
+        <div class="choice">
+            <p>Select Difficulty</p>
+            <button class="easy"><p>Easy</p></button>
+            <button class="normal"><p>Normal</p></button>
+            <button class="hard"><p>Hard</p></button>
+        </div>
     </div>
     <div class="game hide">
-        <div class="topRight">
+        <div class="round"></div>
+        <div class="instruction">
+            <p>Tap the correct piece into the puzzle</p>
         </div>
-        <p class="questionNumber">0/0</p>
-        <div class="whole-question">
-            <div class="question-container"></div>
-            <div class="question-container1"></div>
+        <div id="board">
         </div>
-        <img class="text" src="./img/yourAnswer.png" alt="">
-        <div class="options">
-            <button id="btn1"></button>
-            <button id="btn2"></button>
-            <button id="btn3"></button>
-            <button id="btn4"></button>
-        </div>
-        <button class="confrimButton">
-            <img class="btn" src="./img/confirm.png">
-        </button>
-        <button class="nextButton hide">
-            <img class="btn" src="./img/next.png">
-        </button>
-        <div class="correct hide">
-            <img class="small" src="./img/hu.png">
-            <button class="winNext">
-                <img class="hubtn" src="./img/huNext.png">
-            </button>
+        <div id="pieces">
         </div>
     </div>
     <div class="final hide">
-        <img class="title endTitle" src="./img/title.png">
-        <div class="center">
-            <div class="picture"></div>
-            <div class="words"></div>
+        <div class="game-title endTitle"><p>Memories</p></div>
+        <img class="end" src="./img/wellDone.png">
+        <div class="buttons">
+            <button class="againButton">
+                <p class="words"><img src="./img/again.png" class="arrowHead">Play again</p>
+            </button>
+            <button class="homeButton" onclick="window.location.href='https://gimme.sg/activations/dementia/';">
+                <p class="words"><img src="./img/home.png" class="arrowHead">Back to home</p>
+            </button>
         </div>
-        <button class="playAgain">
-            <img class="btn" src="./img/playAgain.png">
-        </button>
-        <button class="home" onclick="window.location.href='https://gimme.sg/activations/dementia/';">
-            <img class="btn" src="./img/home.png">
-        </button>
     </div>
-    <link rel="stylesheet" href="./style.css">
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

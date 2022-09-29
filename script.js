@@ -1,1360 +1,380 @@
-const startButton = document.querySelector(".start");
-const title = document.querySelector(".start-container");
-const difficulty = document.querySelector(".difficulty");
-const easy = document.querySelector(".easy-container");
-const normal = document.querySelector(".normal-container");
-const hard = document.querySelector(".hard-container");
-const easyButton = document.querySelector(".easy");
-const normalButton = document.querySelector(".normal");
-const hardButton = document.querySelector(".hard");
-const ans1 = document.getElementById("btn1");
-const ans2 = document.getElementById("btn2");
-const ans3 = document.getElementById("btn3");
-const ans4 = document.getElementById("btn4");
-const correct = document.querySelector(".correct");
-const picture = document.querySelector(".picture")
-const words = document.querySelector(".words")
-const wrong = document.querySelector(".wrong");
-const game = document.querySelector(".game");
+const startButton = document.querySelector(".startButton")
+const start = document.querySelector(".start")
+const selection = document.querySelector(".selection")
+const easy = document.querySelector(".easy")
+const normal = document.querySelector(".normal")
+const hard = document.querySelector(".hard")
+const game = document.querySelector(".game")
+const round = document.querySelector(".round")
+const board = document.getElementById("board")
+const piecesCon = document.getElementById("pieces")
+const playAgain = document.querySelector(".againButton")
 const final = document.querySelector(".final");
-const playAgain = document.querySelector(".playAgain")
-const questionNumber = document.querySelector(".questionNumber");
-const questionContainer = document.querySelector(".question-container");
-const questionContainer1 = document.querySelector(".question-container1");
-const next = document.querySelector(".nextButton");
-const confirm = document.querySelector(".confrimButton");
-const winNext = document.querySelector(".winNext");
-let Selectdifficulty;
-let currentInstruction = 0;
 
-let current = 0;
-let score = 0;
-let correctAnswer;
-let pattern;
-let choice;
-let choicePattern;
-let choosenAnswer
-let totalQuestion = 0;
+let rows;
+let columns;
+let endpuzzle;
 
-let easyQuestions = false;
-let normalQuestions = false;
-let hardQuestions = false;
+var checkP1
+var checkP2
+var checkP3
 
-let wrongAns1;
-let wrongAns2;
-let wrongAns3;
-let wrongAns4;
+let rounds;
+let totalRound;
 
-let wrongImg1;
-let wrongImg2;
-let wrongImg3;
-let wrongImg4;
+puzzle1Easy = [
+    {number: 1, image: "./img/Puzzle 1_E1.png"},
+    {number: 2, image: "./img/Puzzle 1_E2.png"},
+    {number: 3, image: "./img/Puzzle 1_E3.png"},
+    {number: 4, image: "./img/Puzzle 1_E4.png"}
+]
 
-let wrongPattern1
-let wrongPattern2
-let wrongPattern3
-let wrongPattern4
+puzzle2Easy = [
+    {number: 1, image: "./img/Puzzle 2_E1.png"},
+    {number: 2, image: "./img/Puzzle 2_E2.png"},
+    {number: 3, image: "./img/Puzzle 2_E3.png"},
+    {number: 4, image: "./img/Puzzle 2_E4.png"}
+]
 
-//numbers:
-//dong = 10
-//nan = 11
-//xi = 12
-//bei = 13
-//hong zhong = 14
-//fa cai = 15
+puzzle3Easy = [
+    {number: 1, image: "./img/Puzzle 3_E1.png"},
+    {number: 2, image: "./img/Puzzle 3_E2.png"},
+    {number: 3, image: "./img/Puzzle 3_E3.png"},
+    {number: 4, image: "./img/Puzzle 3_E4.png"}
+]
 
-//patterns:
-//tong = 0
-//wan = 1
-//shou = 2
-const Question15 =[
-    {number:"12", pattern:"0", image:"./img/Mahjong Tile 33.png"},
-    {number:"12", pattern:"0", image:"./img/Mahjong Tile 33.png"},
-    {number:"12", pattern:"0", image:"./img/Mahjong Tile 33.png"},
-    {number:"15", pattern:"2", image:"./img/Mahjong Tile 30.png"},
-    {number:"15", pattern:"2",image: "./img/Mahjong Tile 30.png"},
-    {number:"15", pattern:"2",image: "./img/Mahjong Tile 30.png"},
-    {number:"13", pattern:"0",image: "./img/Mahjong Tile 34.png"},
-    {number:"13", pattern:"0",image: "./img/Mahjong Tile 34.png"},
-    {number:"13", pattern:"0",image: "./img/Mahjong Tile 34.png"},
-    {number:"14", pattern:"1",image: "./img/Mahjong Tile 28.png"},
-    {number:"14", pattern:"1",image: "./img/Mahjong Tile 28.png"},
-    {number:"14", pattern:"1",image: "./img/Mahjong Tile 28.png"},
-    {number:"10", pattern:"0",image: "./img/Mahjong Tile 31.png"},
-    {number:"10", pattern:"0",image: "./img/Mahjong Tile 31.png"}
-];
-const Question14 =[
-    {number:"1", pattern:"0", image:"./img/Mahjong Tile 1.png"},
-    {number:"1", pattern:"0", image:"./img/Mahjong Tile 1.png"},
-    {number:"1", pattern:"0", image:"./img/Mahjong Tile 1.png"},
-    {number:"1", pattern:"2", image:"./img/Mahjong Tile 19.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"10", pattern:"0",image: "./img/Mahjong Tile 31.png"},
-    {number:"10", pattern:"0",image: "./img/Mahjong Tile 31.png"},
-    {number:"10", pattern:"0",image: "./img/Mahjong Tile 31.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"15", pattern:"0",image: "./img/Mahjong Tile 30.png"},
-    {number:"15", pattern:"0",image: "./img/Mahjong Tile 30.png"}
-];
-const Question13 =[
-    {number:"9", pattern:"0", image:"./img/Mahjong Tile 9.png"},
-    {number:"9", pattern:"0", image:"./img/Mahjong Tile 9.png"},
-    {number:"9", pattern:"0", image:"./img/Mahjong Tile 9.png"},
-    {number:"1", pattern:"1", image:"./img/Mahjong Tile 10.png"},
-    {number:"1", pattern:"1",image: "./img/Mahjong Tile 10.png"},
-    {number:"1", pattern:"1",image: "./img/Mahjong Tile 10.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"1", pattern:"0",image: "./img/Mahjong Tile 1.png"},
-    {number:"1", pattern:"0",image: "./img/Mahjong Tile 1.png"},
-    {number:"1", pattern:"0",image: "./img/Mahjong Tile 1.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"}
-];
-const Question12 =[
-    {number:"9", pattern:"1", image:"./img/Mahjong Tile 18.png"},
-    {number:"9", pattern:"1", image:"./img/Mahjong Tile 18.png"},
-    {number:"9", pattern:"1", image:"./img/Mahjong Tile 18.png"},
-    {number:"11", pattern:"0", image:"./img/Mahjong Tile 32.png"},
-    {number:"11", pattern:"0",image: "./img/Mahjong Tile 32.png"},
-    {number:"11", pattern:"0",image: "./img/Mahjong Tile 32.png"},
-    {number:"1", pattern:"1",image: "./img/Mahjong Tile 10.png"},
-    {number:"2", pattern:"1",image: "./img/Mahjong Tile 11.png"},
-    {number:"3", pattern:"1",image: "./img/Mahjong Tile 12.png"},
-    {number:"12", pattern:"0",image: "./img/Mahjong Tile 33.png"},
-    {number:"12", pattern:"0",image: "./img/Mahjong Tile 33.png"},
-    {number:"12", pattern:"0",image: "./img/Mahjong Tile 33.png"},
-    {number:"5", pattern:"1",image: "./img/Mahjong Tile 14.png"},
-    {number:"5", pattern:"1",image: "./img/Mahjong Tile 14.png"}
-];
-const Question11 =[
-    {number:"9", pattern:"2", image:"./img/Mahjong Tile 27.png"},
-    {number:"9", pattern:"2", image:"./img/Mahjong Tile 27.png"},
-    {number:"9", pattern:"2", image:"./img/Mahjong Tile 27.png"},
-    {number:"3", pattern:"2", image:"./img/Mahjong Tile 21.png"},
-    {number:"4", pattern:"2",image: "./img/Mahjong Tile 22.png"},
-    {number:"5", pattern:"2",image: "./img/Mahjong Tile 23.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"15", pattern:"0",image: "./img/Mahjong Tile 30.png"},
-    {number:"15", pattern:"0",image: "./img/Mahjong Tile 30.png"},
-    {number:"15", pattern:"0",image: "./img/Mahjong Tile 30.png"},
-    {number:"8", pattern:"2",image: "./img/Mahjong Tile 26.png"},
-    {number:"8", pattern:"2",image: "./img/Mahjong Tile 26.png"}
-];
-const Question10 =[
-    {number:"1", pattern:"1", image:"./img/Mahjong Tile 10.png"},
-    {number:"2", pattern:"1", image:"./img/Mahjong Tile 11.png"},
-    {number:"3", pattern:"1", image:"./img/Mahjong Tile 12.png"},
-    {number:"7", pattern:"2", image:"./img/Mahjong Tile 25.png"},
-    {number:"8", pattern:"2",image: "./img/Mahjong Tile 26.png"},
-    {number:"9", pattern:"2",image: "./img/Mahjong Tile 27.png"},
-    {number:"4", pattern:"2",image: "./img/Mahjong Tile 22.png"},
-    {number:"5", pattern:"2",image: "./img/Mahjong Tile 23.png"},
-    {number:"6", pattern:"2",image: "./img/Mahjong Tile 24.png"},
-    {number:"6", pattern:"0",image: "./img/Mahjong Tile 6.png"},
-    {number:"7", pattern:"0",image: "./img/Mahjong Tile 7.png"},
-    {number:"8", pattern:"0",image: "./img/Mahjong Tile 8.png"},
-    {number:"4", pattern:"0",image: "./img/Mahjong Tile 4.png"},
-    {number:"4", pattern:"0",image: "./img/Mahjong Tile 4.png"}
-];
-const Question9 =[
-    {number:"2", pattern:"0", image:"./img/Mahjong Tile 2.png"},
-    {number:"2", pattern:"0", image:"./img/Mahjong Tile 2.png"},
-    {number:"2", pattern:"0", image:"./img/Mahjong Tile 2.png"},
-    {number:"0", pattern:"0", image:"./img/Mahjong Tile 29.png"},
-    {number:"0", pattern:"0",image: "./img/Mahjong Tile 29.png"},
-    {number:"0", pattern:"0",image: "./img/Mahjong Tile 29.png"},
-    {number:"5", pattern:"0",image: "./img/Mahjong Tile 5.png"},
-    {number:"5", pattern:"0",image: "./img/Mahjong Tile 5.png"},
-    {number:"5", pattern:"0",image: "./img/Mahjong Tile 5.png"},
-    {number:"14", pattern:"0",image: "./img/Mahjong Tile 28.png"},
-    {number:"14", pattern:"0",image: "./img/Mahjong Tile 28.png"},
-    {number:"14", pattern:"0",image: "./img/Mahjong Tile 28.png"},
-    {number:"11", pattern:"0",image: "./img/Mahjong Tile 32.png"},
-    {number:"11", pattern:"0",image: "./img/Mahjong Tile 32.png"}
-];
-const Question8 =[
-    {number:"10", pattern:"0", image:"./img/Mahjong Tile 31.png"},
-    {number:"10", pattern:"0", image:"./img/Mahjong Tile 31.png"},
-    {number:"10", pattern:"0", image:"./img/Mahjong Tile 31.png"},
-    {number:"5", pattern:"1", image:"./img/Mahjong Tile 14.png"},
-    {number:"6", pattern:"1",image: "./img/Mahjong Tile 15.png"},
-    {number:"7", pattern:"1",image: "./img/Mahjong Tile 16.png"},
-    {number:"4", pattern:"0",image: "./img/Mahjong Tile 4.png"},
-    {number:"5", pattern:"0",image: "./img/Mahjong Tile 5.png"},
-    {number:"6", pattern:"0",image: "./img/Mahjong Tile 6.png"},
-    {number:"7", pattern:"2",image: "./img/Mahjong Tile 25.png"},
-    {number:"8", pattern:"2",image: "./img/Mahjong Tile 26.png"},
-    {number:"8", pattern:"2",image: "./img/Mahjong Tile 27.png"},
-    {number:"1", pattern:"1",image: "./img/Mahjong Tile 10.png"},
-    {number:"1", pattern:"1",image: "./img/Mahjong Tile 10.png"}
-];
-const Question7 =[
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"1", pattern:"1",image: "./img/Mahjong Tile 10.png"},
-    {number:"2", pattern:"1", image:"./img/Mahjong Tile 11.png"},
-    {number:"3", pattern:"1",image: "./img/Mahjong Tile 12.png"},
-    {number:"5", pattern:"1",image: "./img/Mahjong Tile 14.png"},
-    {number:"6", pattern:"1",image: "./img/Mahjong Tile 15.png"},
-    {number:"7", pattern:"1",image: "./img/Mahjong Tile 16.png"},
-    {number:"3", pattern:"1",image: "./img/Mahjong Tile 12.png"},
-    {number:"4", pattern:"1",image: "./img/Mahjong Tile 13.png"},
-    {number:"5", pattern:"1",image: "./img/Mahjong Tile 14.png"},
-    {number:"6", pattern:"1",image: "./img/Mahjong Tile 15.png"},
-    {number:"6", pattern:"1",image: "./img/Mahjong Tile 15.png"}  
-];
-const Question6 =[
-    {number:"10", pattern:"0",image: "./img/Mahjong Tile 31.png"},
-    {number:"11", pattern:"0",image: "./img/Mahjong Tile 32.png"},
-    {number:"12", pattern:"0",image: "./img/Mahjong Tile 33.png"},
-    {number:"13", pattern:"0", image:"./img/Mahjong Tile 34.png"},
-    {number:"14", pattern:"0",image: "./img/Mahjong Tile 28.png"},
-    {number:"0", pattern:"0",image: "./img/Mahjong Tile 29.png"},
-    {number:"15", pattern:"0",image: "./img/Mahjong Tile 30.png"},
-    {number:"1", pattern:"0",image: "./img/Mahjong Tile 1.png"},
-    {number:"9", pattern:"0",image: "./img/Mahjong Tile 9.png"},
-    {number:"1", pattern:"1",image: "./img/Mahjong Tile 10.png"},
-    {number:"9", pattern:"1",image: "./img/Mahjong Tile 18.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"9", pattern:"2",image: "./img/Mahjong Tile 27.png"}
-];
-const Question5 =[
-    {number:"7", pattern:"0",image: "./img/Mahjong Tile 7.png"},
-    {number:"8", pattern:"0",image: "./img/Mahjong Tile 8.png"},
-    {number:"9", pattern:"0",image: "./img/Mahjong Tile 9.png"},
-    {number:"3", pattern:"0", image:"./img/Mahjong Tile 3.png"},
-    {number:"4", pattern:"0",image: "./img/Mahjong Tile 4.png"},
-    {number:"5", pattern:"0",image: "./img/Mahjong Tile 5.png"},
-    {number:"1", pattern:"0",image: "./img/Mahjong Tile 1.png"},
-    {number:"2", pattern:"0",image: "./img/Mahjong Tile 2.png"},
-    {number:"3", pattern:"0",image: "./img/Mahjong Tile 3.png"},
-    {number:"6", pattern:"0",image: "./img/Mahjong Tile 6.png"},
-    {number:"7", pattern:"0",image: "./img/Mahjong Tile 7.png"},
-    {number:"8", pattern:"0",image: "./img/Mahjong Tile 8.png"},
-    {number:"1", pattern:"0",image: "./img/Mahjong Tile 1.png"},
-    {number:"1", pattern:"0",image: "./img/Mahjong Tile 1.png"}
-];
-const Question4 =[
-    {number:"1", pattern:"0",image: "./img/Mahjong Tile 1.png"},
-    {number:"2", pattern:"0",image: "./img/Mahjong Tile 2.png"},
-    {number:"3", pattern:"0",image: "./img/Mahjong Tile 3.png"},
-    {number:"6", pattern:"1", image:"./img/Mahjong Tile 15.png"},
-    {number:"7", pattern:"1",image: "./img/Mahjong Tile 16.png"},
-    {number:"8", pattern:"1",image: "./img/Mahjong Tile 17.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"2", pattern:"2",image: "./img/Mahjong Tile 20.png"},
-    {number:"3", pattern:"2",image: "./img/Mahjong Tile 21.png"},
-    {number:"2", pattern:"1",image: "./img/Mahjong Tile 11.png"},
-    {number:"3", pattern:"1",image: "./img/Mahjong Tile 12.png"},
-    {number:"4", pattern:"1",image: "./img/Mahjong Tile 13.png"},
-    {number:"6", pattern:"2",image: "./img/Mahjong Tile 24.png"},
-    {number:"6", pattern:"2",image: "./img/Mahjong Tile 24.png"}
-];
-const Question3 =[
-    {number:"2", pattern:"2",image: "./img/Mahjong Tile 20.png"},
-    {number:"2", pattern:"2",image: "./img/Mahjong Tile 20.png"},
-    {number:"2", pattern:"2",image: "./img/Mahjong Tile 20.png"},
-    {number:"8", pattern:"1", image:"./img/Mahjong Tile 17.png"},
-    {number:"8", pattern:"1",image: "./img/Mahjong Tile 17.png"},
-    {number:"8", pattern:"1",image: "./img/Mahjong Tile 17.png"},
-    {number:"7", pattern:"0",image: "./img/Mahjong Tile 7.png"},
-    {number:"7", pattern:"0",image: "./img/Mahjong Tile 7.png"},
-    {number:"7", pattern:"0",image: "./img/Mahjong Tile 7.png"},
-    {number:"6", pattern:"2",image: "./img/Mahjong Tile 24.png"},
-    {number:"6", pattern:"2",image: "./img/Mahjong Tile 24.png"},
-    {number:"6", pattern:"2",image: "./img/Mahjong Tile 24.png"},
-    {number:"3", pattern:"1",image: "./img/Mahjong Tile 12.png"},
-    {number:"3", pattern:"1",image: "./img/Mahjong Tile 12.png"}
-];
-const Question2 =[
-    {number:"7", pattern:"2",image: "./img/Mahjong Tile 25.png"},
-    {number:"7", pattern:"2",image: "./img/Mahjong Tile 25.png"},
-    {number:"7", pattern:"2",image: "./img/Mahjong Tile 25.png"},
-    {number:"7", pattern:"0", image:"./img/Mahjong Tile 7.png"},
-    {number:"8", pattern:"0",image: "./img/Mahjong Tile 8.png"},
-    {number:"9", pattern:"0",image: "./img/Mahjong Tile 9.png"},
-    {number:"12", pattern:"0",image: "./img/Mahjong Tile 33.png"},
-    {number:"12", pattern:"0",image: "./img/Mahjong Tile 33.png"},
-    {number:"12", pattern:"0",image: "./img/Mahjong Tile 33.png"},
-    {number:"3", pattern:"1",image: "./img/Mahjong Tile 12.png"},
-    {number:"4", pattern:"1",image: "./img/Mahjong Tile 13.png"},
-    {number:"5", pattern:"1",image: "./img/Mahjong Tile 14.png"},
-    {number:"5", pattern:"2",image: "./img/Mahjong Tile 23.png"},
-    {number:"5", pattern:"2",image: "./img/Mahjong Tile 23.png"}
-];
-const Question1 =[
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"1", pattern:"2",image: "./img/Mahjong Tile 19.png"},
-    {number:"2", pattern:"2",image: "./img/Mahjong Tile 20.png"},
-    {number:"3", pattern:"2", image:"./img/Mahjong Tile 21.png"},
-    {number:"4", pattern:"2",image: "./img/Mahjong Tile 22.png"},
-    {number:"5", pattern:"2",image: "./img/Mahjong Tile 23.png"},
-    {number:"6", pattern:"2",image: "./img/Mahjong Tile 24.png"},
-    {number:"7", pattern:"2",image: "./img/Mahjong Tile 25.png"},
-    {number:"5", pattern:"2",image: "./img/Mahjong Tile 23.png"},
-    {number:"5", pattern:"2",image: "./img/Mahjong Tile 23.png"},
-    {number:"5", pattern:"2",image: "./img/Mahjong Tile 23.png"},
-    {number:"9", pattern:"2",image: "./img/Mahjong Tile 27.png"},
-    {number:"9", pattern:"2",image: "./img/Mahjong Tile 27.png"}    
-];
+puzzle1Normal = [
+    {number: 1, image: "./img/Puzzle 1_N1.png"},
+    {number: 2, image: "./img/Puzzle 1_N2.png"},
+    {number: 3, image: "./img/Puzzle 1_N3.png"},
+    {number: 4, image: "./img/Puzzle 1_N4.png"},
+    {number: 5, image: "./img/Puzzle 1_N5.png"},
+    {number: 6, image: "./img/Puzzle 1_N6.png"}
+]
 
+puzzle2Normal = [
+    {number: 1, image: "./img/Puzzle 2_N1.png"},
+    {number: 2, image: "./img/Puzzle 2_N2.png"},
+    {number: 3, image: "./img/Puzzle 2_N3.png"},
+    {number: 4, image: "./img/Puzzle 2_N4.png"},
+    {number: 5, image: "./img/Puzzle 2_N5.png"},
+    {number: 6, image: "./img/Puzzle 2_N6.png"}
+]
+
+puzzle3Normal = [
+    {number: 1, image: "./img/Puzzle 3_N1.png"},
+    {number: 2, image: "./img/Puzzle 3_N2.png"},
+    {number: 3, image: "./img/Puzzle 3_N3.png"},
+    {number: 4, image: "./img/Puzzle 3_N4.png"},
+    {number: 5, image: "./img/Puzzle 3_N5.png"},
+    {number: 6, image: "./img/Puzzle 3_N6.png"}
+]
+
+puzzle1Hard = [
+    {number: 1, image: "./img/Puzzle 1_H1.png"},
+    {number: 2, image: "./img/Puzzle 1_H2.png"},
+    {number: 3, image: "./img/Puzzle 1_H3.png"},
+    {number: 4, image: "./img/Puzzle 1_H4.png"},
+    {number: 5, image: "./img/Puzzle 1_H5.png"},
+    {number: 6, image: "./img/Puzzle 1_H6.png"},
+    {number: 7, image: "./img/Puzzle 1_H7.png"},
+    {number: 8, image: "./img/Puzzle 1_H8.png"},
+    {number: 9, image: "./img/Puzzle 1_H9.png"}
+]
+
+puzzle2Hard = [
+    {number: 1, image: "./img/Puzzle 2_H1.png"},
+    {number: 2, image: "./img/Puzzle 2_H2.png"},
+    {number: 3, image: "./img/Puzzle 2_H3.png"},
+    {number: 4, image: "./img/Puzzle 2_H4.png"},
+    {number: 5, image: "./img/Puzzle 2_H5.png"},
+    {number: 6, image: "./img/Puzzle 2_H6.png"},
+    {number: 7, image: "./img/Puzzle 2_H7.png"},
+    {number: 8, image: "./img/Puzzle 2_H8.png"},
+    {number: 9, image: "./img/Puzzle 2_H9.png"}
+]
+
+puzzle3Hard = [
+    {number: 1, image: "./img/Puzzle 3_H1.png"},
+    {number: 2, image: "./img/Puzzle 3_H2.png"},
+    {number: 3, image: "./img/Puzzle 3_H3.png"},
+    {number: 4, image: "./img/Puzzle 3_H4.png"},
+    {number: 5, image: "./img/Puzzle 3_H5.png"},
+    {number: 6, image: "./img/Puzzle 3_H6.png"},
+    {number: 7, image: "./img/Puzzle 3_H7.png"},
+    {number: 8, image: "./img/Puzzle 3_H8.png"},
+    {number: 9, image: "./img/Puzzle 3_H9.png"}
+]
 
 startButton.addEventListener("click", () => {
-    title.classList.add("hide")
-    Selectdifficulty = true;
-    currentInstruction = 0
-    difficulty.classList.remove("hide")
+    start.classList.add("hide")
+    selection.classList.remove("hide")
+    totalRound = 3
+    rounds = 0
 })
 
-easyButton.addEventListener("click", () => {
-    difficulty.classList.add("hide")
+easy.addEventListener("click", () => {
+    selection.classList.add("hide")
     game.classList.remove("hide")
-    easyQuestions = true;
-    totalQuestion = 5;
-    Began()
-})
-normalButton.addEventListener("click", () => {
-    difficulty.classList.add("hide")
-    game.classList.remove("hide")
-    normalQuestions = true;
-    totalQuestion = 10;
-    Began()
-})
-hardButton.addEventListener("click", () => {
-    difficulty.classList.add("hide")
-    game.classList.remove("hide")
-    hardQuestions = true;
-    totalQuestion = 20;
-    Began()
+    rows = 2
+    columns =  2
+    puzzle = 4
+    puzzleSelected = null
+    puzzleNumber = null
+    Spawn()
 })
 
-ans1.addEventListener("click", () => {
-    if(choosenAnswer == false){
-        ans2.style.backgroundColor = "Transparent"
-        ans3.style.backgroundColor = "Transparent"
-        ans4.style.backgroundColor = "Transparent"
-        ans1.style.backgroundColor = "#25712E"
-        choice = wrongAns1
-        choicePattern = wrongPattern1
-    }
+normal.addEventListener("click", () => {
+    selection.classList.add("hide")
+    game.classList.remove("hide")
+    rows = 2
+    columns =  3
+    puzzle = 6
+    puzzleSelected = null
+    puzzleNumber = null
+    Spawn()
 })
-ans2.addEventListener("click", () => {
-    if(choosenAnswer == false){
-        ans1.style.backgroundColor = "Transparent"
-        ans3.style.backgroundColor = "Transparent"
-        ans4.style.backgroundColor = "Transparent"
-        ans2.style.backgroundColor = "#25712E"
-        choice = wrongAns2
-        choicePattern = wrongPattern2
-        }
-})
-ans3.addEventListener("click", () => {
-    if(choosenAnswer == false){
-        ans1.style.backgroundColor = "Transparent"
-        ans2.style.backgroundColor = "Transparent"
-        ans4.style.backgroundColor = "Transparent"
-        ans3.style.backgroundColor = "#25712E"
-        choice = wrongAns3
-        choicePattern = wrongPattern3
-        }
-})
-ans4.addEventListener("click", () => {
-    if(choosenAnswer == false){
-        ans1.style.backgroundColor = "Transparent"
-        ans2.style.backgroundColor = "Transparent"
-        ans3.style.backgroundColor = "Transparent"
-        ans4.style.backgroundColor = "#25712E"
-        choice = wrongAns4
-        choicePattern = wrongPattern4
-        }
-})
-confirm.addEventListener("click", () => {
-    if(choice == null  && choicePattern == null){
-        return
-    }
-    ans1.style.backgroundColor = "Transparent"
-    ans2.style.backgroundColor = "Transparent"
-    ans3.style.backgroundColor = "Transparent"
-    ans4.style.backgroundColor = "Transparent"
-    if(choice == correctAnswer  && choicePattern == pattern){
-        score += 1;
-        correct.classList.remove("hide")
-    }
-        else{
-            console.log("wrong")
-            if(choice == wrongAns1 && choicePattern == wrongPattern1){
-                ans1.innerHTML=`
-                <img src="${wrongImg1}"></div>
-                <img class="overlay" src="./img/wrong.png">`
-            }
-            if(choice == wrongAns2 && choicePattern == wrongPattern2){
-                ans2.innerHTML=`
-                <img src="${wrongImg2}"></div>
-                <img class="overlay" src="./img/wrong.png">`
-            }
-            if(choice == wrongAns3 && choicePattern == wrongPattern3){
-                ans3.innerHTML=`
-                <img src="${wrongImg3}"></div>
-                <img class="overlay" src="./img/wrong.png">`
-            }
-            if(choice == wrongAns4 && choicePattern == wrongPattern4){
-                ans4.innerHTML=`
-                <img src="${wrongImg4}"></div>
-                <img class="overlay" src="./img/wrong.png">`
-            }
-            if(correctAnswer == wrongAns1 && pattern == wrongPattern1){
-            ans1.innerHTML =`
-                <img src="${wrongImg1}"></div>
-                <img class="overlay" src="./img/correct.png">`
-            }
-            if(correctAnswer == wrongAns2 && pattern == wrongPattern2){
-                ans2.innerHTML =`
-                <img src="${wrongImg2}"></div>
-                <img class="overlay" src="./img/correct.png">`
-            }
-            if(correctAnswer == wrongAns3 && pattern == wrongPattern3){
-                ans3.innerHTML =`
-                <img src="${wrongImg3}"></div>
-                <img class="overlay" src="./img/correct.png">`
-            }
-            if(correctAnswer == wrongAns4 && pattern == wrongPattern4){
-                ans4.innerHTML =`
-                <img src="${wrongImg4}"></div>
-                <img class="overlay" src="./img/correct.png">`
-            }
-        }
-        choosenAnswer = true
-        confirm.classList.add("hide")
-        next.classList.remove("hide")
-    })
-next.addEventListener("click", () => {
-    choosenAnswer = false;
-    ans1.style.backgroundImage = ""
-    ans2.style.backgroundImage = ""
-    ans3.style.backgroundImage = ""
-    ans4.style.backgroundImage = ""
-    correct.classList.add("hide")
-    choice = null;
-    choicePattern = null
-    Question()
-    confirm.classList.remove("hide")
-    next.classList.add("hide")
-})
-winNext.addEventListener("click", () => {
-    choosenAnswer = false;
-    ans1.style.backgroundImage = "none"
-    ans2.style.backgroundImage = "none"
-    ans3.style.backgroundImage = "none"
-    ans4.style.backgroundImage = "none"
-    correct.classList.add("hide")
-    choice = null;
-    choicePattern = null
-    Question()
-    confirm.classList.remove("hide")
-    next.classList.add("hide")
+
+hard.addEventListener("click", () => {
+    selection.classList.add("hide")
+    game.classList.remove("hide")
+    rows = 3
+    columns =  3
+    puzzle = 9
+    puzzleSelected = null
+    puzzleNumber = null
+    Spawn()
 })
 
 playAgain.addEventListener("click", () => {
-    title.classList.remove("hide")
     final.classList.add("hide")
-    easyQuestions = false;
-    normalQuestions = false;
-    hardQuestions = false;
+    start.classList.remove("hide")
 })
 
-function Began(){
-    current = 0;
-    choosenAnswer = false
-    Question()
+function Spawn(){
+
+    rounds += 1;
+
+    round.innerHTML = `<p>${rounds}/${totalRound}</p>`
+    let randomPuzzle = Math.floor(Math.random() * 3);
+    let puzzlePieces
+
+    if(puzzle == 4){
+        if(randomPuzzle == 0){
+            puzzlePieces = puzzle1Easy
+        }
+        if(randomPuzzle == 1){
+            puzzlePieces = puzzle2Easy    
+        }
+        if(randomPuzzle == 2){
+            puzzlePieces = puzzle3Easy
+        }
+        endpuzzle = 1
+        board.classList.add("boardP4")
+    }
+    if(puzzle == 6){
+        if(randomPuzzle == 0){
+            puzzlePieces = puzzle1Normal
+        }
+        if(randomPuzzle == 1){
+            puzzlePieces = puzzle2Normal
+        }
+        if(randomPuzzle == 2){
+            puzzlePieces = puzzle3Normal
+        }
+        endpuzzle = 2
+        board.classList.add("boardP6")
+    }
+    if(puzzle == 9){
+        if(randomPuzzle == 0){
+            puzzlePieces = puzzle1Hard
+        }
+        if(randomPuzzle == 1){
+            puzzlePieces = puzzle2Hard
+            
+        }
+        if(randomPuzzle == 2){
+            puzzlePieces = puzzle3Hard
+        }
+        endpuzzle = 3
+        board.classList.add("boardP9")
+    }
+
+
+    let i = -1
+    //initialize the board
+    for(let r = 1; r < (rows + 1); r ++){
+        for(let c = 1; c < (columns + 1); c++){
+            i = i + 1
+
+            let currentClass = "guide" + (i + 1)
+            
+            let tile = document.createElement("img")
+            tile.src = puzzlePieces[i].image
+            tile.classList.add(currentClass)
+            tile.setAttribute("data", puzzlePieces[i].number)
+
+            board.append(tile)
+            
+            let asignButton = document.querySelector(`.${currentClass}`)
+            let number = tile.getAttribute("data")
+            
+            asignButton.addEventListener("click", () => {
+                if(puzzleNumber == null & !asignButton.classList.contains("question")) {return}
+                if(puzzleNumber == number & asignButton.classList.contains("question")){
+                    puzzleSelected.classList.add("right")
+                    asignButton.style.opacity = "1";
+                    asignButton.classList.add("done")
+                    Check()
+                }
+                puzzleSelected.style.border = ""
+                puzzleSelected = null
+                puzzleNumber = null
+            })
+        }
+    }
+
+    //pieces
+    let pieces = [];
+    for(let i = 1; i <= rows*columns; i++){
+        pieces = [...puzzlePieces]
+    }
+
+    pieces.reverse();
+    for (let i=0; i < pieces.length; i++){
+        let j = Math.floor(Math.random() * pieces.length)
+
+        //swap
+        let tmp = pieces[i]
+        pieces[i] = pieces[j]
+        pieces[j] = tmp
+    }
+
+    for (let i = 0; i < 3; i ++){
+        let currentClass = "puzzle" + (i + 1)
+
+        let tile = document.createElement("img")
+        tile.src = pieces[i].image
+        tile.classList.add(currentClass)
+        tile.setAttribute("data", pieces[i].number)
+
+
+        let currentCheck = "checkP" + (i + 1)
+
+        window[currentCheck] = pieces[i].number
+
+        piecesCon.append(tile)
+
+        let asignButton = document.querySelector(`.${currentClass}`)
+
+        asignButton.addEventListener("click", () => {
+            let puzzleNo = tile.getAttribute("data")
+                if(puzzleSelected == currentClass){
+                    puzzleSelected = null
+                    puzzleNumber = null
+                    asignButton.style.border = ""
+                    return
+                }
+                else{
+                    if(puzzleSelected != null){
+                        puzzleSelected.style.border = ""
+                    }
+                    puzzleSelected = asignButton
+                    puzzleNumber = puzzleNo
+                    asignButton.style.border = "solid 5px black"
+                }
+        })
+    }
+
+    for(let o = 0; o < endpuzzle; o++){
+        let value = (Math.floor(Math.random() * puzzlePieces.length) + 1)
+        let puzzleValue = (Math.floor(Math.random() * 3) + 1)
+
+        let questionPuzzle = "guide" + value
+        let answerPuzzle = "puzzle" + puzzleValue
+        
+        let questionButton = document.querySelector(`.${questionPuzzle}`)
+        let answerButton = document.querySelector(`.${answerPuzzle}`)
+        
+        let getQuestionData = questionButton.getAttribute("data")
+        console.log(questionButton,o)
+        console.log(checkP1, checkP2,checkP3)
+        if(questionButton.classList.contains("question") || answerButton.classList.contains("change")){
+            o--
+            console.log("T")
+        }
+        if(!questionButton.classList.contains("question")  && !answerButton.classList.contains("change")){
+            questionButton.classList.add("question")
+            if(checkP1 == getQuestionData){
+                let btn = document.querySelector(".puzzle1")
+                btn.classList.add("change")
+                console.log(btn, "1")
+            }
+            if(checkP2 == getQuestionData){
+                let btn = document.querySelector(".puzzle2")
+                btn.classList.add("change")
+                console.log(btn, "2")
+            }
+            if(checkP3 == getQuestionData){
+                let btn = document.querySelector(".puzzle3")
+                btn.classList.add("change")
+                console.log(btn, "3")
+            }
+            if(checkP1 != getQuestionData && checkP2 != getQuestionData && checkP3 != getQuestionData){
+            answerButton.classList.add("change")
+            let image = questionButton.src
+
+            answerButton.src = image
+            if(puzzleValue == 1){
+                checkP1 = parseInt(getQuestionData)
+            }
+            if(puzzleValue == 2){
+                checkP2 = parseInt(getQuestionData)
+            }
+            if(puzzleValue == 3){
+                checkP3 = parseInt(getQuestionData)
+            }
+            answerButton.setAttribute("data", getQuestionData)
+            console.log(answerButton, "c")
+           }
+        }
+    }
+
 }
 
-function Question(){
-    let pass = totalQuestion /2;
-    if(current == totalQuestion){
-        console.log(score)
-        final.classList.remove("hide")
-        game.classList.add("hide")
-        if(score == totalQuestion){
-            picture.innerHTML = `<img class = "imgMid" src = "./img/mahjongMaster.png">`
-            words.innerHTML = ``
-        }
-        else if(score >= pass){
-            picture.innerHTML = `<img class = "imgMid" src = "./img/mahjongExpert.png">`
-            words.innerHTML = ``
-        }
-        else if(score < pass){
-            picture.innerHTML = `<img class = "imgMid" src = "./img/mahjongNewbie.png">`
-            words.innerHTML = `<img class = "bigText" src = "./img/GiveYourBest.png">`
-        }
-        return
-    }
-    current += 1;
-    let correctImg
-    let newQuestion
-    let randomQuestionIndex = Math.floor(Math.random() * 15);
-
-    if(randomQuestionIndex == 0){
-        newQuestion = Question1
-    }
-    if(randomQuestionIndex == 1){
-        newQuestion = Question2
-    }
-    if(randomQuestionIndex == 2){
-        newQuestion = Question3
-    }
-    if(randomQuestionIndex == 3){
-        newQuestion = Question4
-    }
-    if(randomQuestionIndex == 4){
-        newQuestion = Question5
-    }
-    if(randomQuestionIndex == 5){
-        newQuestion = Question6
-    }
-    if(randomQuestionIndex == 6){
-        newQuestion = Question7
-    }
-    if(randomQuestionIndex == 7){
-        newQuestion = Question8
-    }
-    if(randomQuestionIndex == 8){
-        newQuestion = Question9
-    }
-    if(randomQuestionIndex == 9){
-        newQuestion = Question10
-    }
-    if(randomQuestionIndex == 10){
-        newQuestion = Question11
-    }
-    if(randomQuestionIndex == 11){
-        newQuestion = Question12
-    }
-    if(randomQuestionIndex == 12){
-        newQuestion = Question13
-    }
-    if(randomQuestionIndex == 13){
-        newQuestion = Question14
-    }
-    if(randomQuestionIndex == 14){
-        newQuestion = Question15
-    }
-
-    questionNumber.innerHTML = current + " / " + totalQuestion;
-    if(easyQuestions == true){
-        let missingTile = Math.floor(Math.random() * 14);
-        correctImg = newQuestion[missingTile].image;
-        correctAnswer = newQuestion[missingTile].number;
-        pattern = newQuestion[missingTile].pattern;
-        newQuestion[missingTile].image = "./img/Mahjong Tile Question Mark.png"
-        questionContainer.innerHTML = `
-                <img src="${newQuestion[0].image}">
-                <img src="${newQuestion[1].image}">
-                <img src="${newQuestion[2].image}">
-                <img src="./img/Empty.png">
-                <img src="${newQuestion[3].image}">
-                <img src="${newQuestion[4].image}">
-                <img src="${newQuestion[5].image}">
-                <img src="${newQuestion[6].image}">
-                <img src="${newQuestion[7].image}">
-                <img src="${newQuestion[8].image}">
-                <img src="./img/Empty.png">
-                <img src="${newQuestion[9].image}">
-                <img src="${newQuestion[10].image}">
-                <img src="${newQuestion[11].image}">`
-                questionContainer1.innerHTML = `<img src="${newQuestion[12].image}">
-                <img src="${newQuestion[13].image}">`
-                newQuestion[missingTile].image = correctImg;
-    }
-    if(normalQuestions == true || hardQuestions == true){
-        let missingTile = Math.floor(Math.random() * 14);
-        correctImg = newQuestion[missingTile].image;
-        correctAnswer = newQuestion[missingTile].number;
-        pattern = newQuestion[missingTile].pattern;
-        
-        if(normalQuestions == true){
-            newQuestion[missingTile].image = "./img/Mahjong Tile Question Mark.png"
-        }
-        if(hardQuestions == true){
-            let missingRandomTile = Math.floor(Math.random() * 16);
-            let missingRandomPattern = Math.floor(Math.random() * 3);
-            
-            //bai ban
-            if(missingRandomTile == 0){
-                newQuestion[missingTile].image = "./img/Mahjong Tile 29.png";
+function Check(){
+    let correct = document.querySelectorAll(".done")
+        if(correct.length == endpuzzle){
+            if(rounds == totalRound){
+                let delay = setTimeout(() => {
+                    remove()
+                    final.classList.remove("hide")
+                    game.classList.add("hide")
+                }, 500);
+                return
             }
-            //dong
-            if(missingRandomTile == 10){
-                newQuestion[missingTile].image = "./img/Mahjong Tile 31.png";
-            }
-            //nan
-            if(missingRandomTile == 11){
-                newQuestion[missingTile].image = "./img/Mahjong Tile 32.png";
-            }
-            //xi
-            if(missingRandomTile == 12){
-                newQuestion[missingTile].image = "./img/Mahjong Tile 32.png";
-            }
-            //bei
-           if(missingRandomTile == 13){
-                newQuestion[missingTile].image = "./img/Mahjong Tile 34.png";
-           }
-            //hong zhong
-            if(missingRandomTile == 14){
-                newQuestion[missingTile].image = "./img/Mahjong Tile 28.png";
-            }
-            //fa cai
-            if(missingRandomTile == 15){
-                newQuestion[missingTile].image = "./img/Mahjong Tile 30.png";
-            }
-            if(missingRandomPattern == 0){
-                //tong
-                if(missingRandomTile == 1){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 1.png";
-               }
-                if(missingRandomTile == 2){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 2.png";
-               }
-               if(missingRandomTile == 3){
-                 newQuestion[missingTile].image = "./img/Mahjong Tile 3.png";
-                }
-                if(missingRandomTile == 4){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 4.png";
-                }
-                if(missingRandomTile == 5){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 5.png";
-                }
-                if(missingRandomTile == 6){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 6.png";
-                }
-                if(missingRandomTile == 7){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 7.png";
-                }
-                if(missingRandomTile == 8){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 8.png";
-                }
-                if(missingRandomTile == 9){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 9.png";
-                }
-            }
-            if(missingRandomPattern == 1)
-            {
-                //wan
-                if(missingRandomTile == 1){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 10.png";
-                }
-                if(missingRandomTile == 2){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 11.png";
-                }
-                if(missingRandomTile == 3){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 12.png";
-                }
-                if(missingRandomTile == 4){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 13.png";
-                }
-                if(missingRandomTile == 5){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 14.png";
-                }
-                if(missingRandomTile == 6){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 15.png";
-                }
-                if(missingRandomTile == 7){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 16.png";
-                }
-                if(missingRandomTile == 8){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 17.png";
-                }
-                if(missingRandomTile == 9){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 18.png";
-                }
-            }
-            if(missingRandomPattern == 2)
-            {
-                //shou
-                if(missingRandomTile == 1){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 19.png";
-                }
-                if(missingRandomTile == 2){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 20.png";
-                }
-                if(missingRandomTile == 3){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 21.png";
-                }
-                if(missingRandomTile == 4){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 22.png";
-                }
-                if(missingRandomTile == 5){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 23.png";
-                }
-                if(missingRandomTile == 6){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 24.png";
-                }
-                if(missingRandomTile == 7){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 25.png";
-                }
-                if(missingRandomTile == 8){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 26.png";
-                }
-                if(missingRandomTile == 9){
-                    newQuestion[missingTile].image = "./img/Mahjong Tile 27.png";
-                }
+            else{
+                let delay = setTimeout(() => {
+                    remove()
+                    Spawn()
+                }, 500);
             }
         }
+}
 
-        let arrangeRandom = Math.floor(Math.random() * 3);
-        if(arrangeRandom == 0){
-            questionContainer.innerHTML = `
-                <img src="${newQuestion[2].image}">
-                <img src="${newQuestion[5].image}">
-                <img src="${newQuestion[12].image}">
-                <img src="./img/Empty.png">
-                <img src="${newQuestion[9].image}">
-                <img src="${newQuestion[1].image}">
-                <img src="${newQuestion[6].image}">
-                <img src="${newQuestion[7].image}">
-                <img src="${newQuestion[3].image}">
-                <img src="${newQuestion[10].image}">
-                <img src="./img/Empty.png">
-                <img src="${newQuestion[0].image}">
-                <img src="${newQuestion[13].image}">
-                <img src="${newQuestion[4].image}">`
-            questionContainer1.innerHTML = `
-                <img src="${newQuestion[8].image}">
-                <img src="${newQuestion[11].image}">`
-        }
-        if(arrangeRandom == 1){
-            questionContainer.innerHTML = `
-                <img src="${newQuestion[4].image}">
-                <img src="${newQuestion[13].image}">
-                <img src="${newQuestion[8].image}">
-                <img src="./img/Empty.png">
-                <img src="${newQuestion[11].image}">
-                <img src="${newQuestion[6].image}">
-                <img src="${newQuestion[2].image}">
-                <img src="${newQuestion[12].image}">
-                <img src="${newQuestion[5].image}">
-                <img src="${newQuestion[3].image}">
-                <img src="./img/Empty.png">
-                <img src="${newQuestion[10].image}">
-                <img src="${newQuestion[1].image}">
-                <img src="${newQuestion[9].image}">`
-            questionContainer1.innerHTML = `
-                <img src="${newQuestion[0].image}">
-                <img src="${newQuestion[7].image}">`
-        }
-        if(arrangeRandom == 2){
-            questionContainer.innerHTML = `
-                <img src="${newQuestion[9].image}">
-                <img src="${newQuestion[7].image}">
-                <img src="${newQuestion[13].image}">
-                <img src="./img/Empty.png">
-                <img src="${newQuestion[10].image}">
-                <img src="${newQuestion[3].image}">
-                <img src="${newQuestion[1].image}">
-                <img src="${newQuestion[6].image}">
-                <img src="${newQuestion[8].image}">
-                <img src="${newQuestion[12].image}">
-                <img src="./img/Empty.png">
-                <img src="${newQuestion[2].image}">
-                <img src="${newQuestion[4].image}">
-                <img src="${newQuestion[11].image}">`
-            questionContainer1.innerHTML = `
-            <img src="${newQuestion[5].image}">
-            <img src="${newQuestion[0].image}">`
-        }
-        newQuestion[missingTile].image = correctImg
-    }
-    wrongAns1 = Math.floor(Math.random() * 9);
-    wrongPattern1 = Math.floor(Math.random() * 3);
-    wrongAns2 = Math.floor(Math.random() * 9);
-    wrongPattern2 = Math.floor(Math.random() * 3);
-    wrongAns3 = Math.floor(Math.random() * 9);
-    wrongPattern3 = Math.floor(Math.random() * 3);
-    wrongAns4 = Math.floor(Math.random() * 9);
-    wrongPattern4 = Math.floor(Math.random() * 3);
+function remove(){
+    removeAllChildNodes(board)
+    removeAllChildNodes(pieces)
+    board.classList.remove("boardP4")
+    piecesCon.classList.remove("boardP4")
+    board.classList.remove("boardP6")
+    piecesCon.classList.remove("boardP6")
+    board.classList.remove("boardP9")
+    piecesCon.classList.remove("boardP9")
+  }
 
-    if(wrongAns1 == wrongAns2 && wrongPattern1 == wrongPattern2){
-        wrongAns1 = Math.floor(Math.random() * 16);
-        wrongAns2 = Math.floor(Math.random() * 16);
+  function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
     }
-    if(wrongAns1 == wrongAns3 && wrongPattern1 == wrongPattern3){
-        wrongAns1 = Math.floor(Math.random() * 16);
-        wrongAns3 = Math.floor(Math.random() * 16);
-    }
-    if(wrongAns1 == wrongAns4 && wrongPattern1 == wrongPattern4){
-        wrongAns1 = Math.floor(Math.random() * 16);
-        wrongAns4 = Math.floor(Math.random() * 16);
-    }
-    if(wrongAns2 == wrongAns3 && wrongPattern2 == wrongPattern3){
-        wrongAns2 = Math.floor(Math.random() * 16);
-        wrongAns3 = Math.floor(Math.random() * 16);
-    }
-    if(wrongAns2 == wrongAns4 && wrongPattern2 == wrongPattern4){
-        wrongAns2 = Math.floor(Math.random() * 16);
-        wrongAns4 = Math.floor(Math.random() * 16);
-    }
-    if(wrongAns3 == wrongAns4 && wrongPattern3 == wrongPattern4){
-        wrongAns3 = Math.floor(Math.random() * 16);
-        wrongAns4 = Math.floor(Math.random() * 16);
-    }
-    
-    if(wrongAns1 == correctAnswer && wrongPattern1 == pattern){
-        wrongAns1 = Math.floor(Math.random() * 16);
-    }
-    if(wrongAns2 == correctAnswer && wrongPattern2 == pattern){
-        wrongAns2 = Math.floor(Math.random() * 16);
-    }
-    if(wrongAns3 == correctAnswer && wrongPattern3 == pattern){
-        wrongAns3 = Math.floor(Math.random() * 16);
-    }
-    if(wrongAns4 == correctAnswer && wrongPattern4 == pattern){
-        wrongAns4 = Math.floor(Math.random() * 16);
-    }
-
-    if(wrongAns1 == 0 || wrongAns2 == 0 || wrongAns3 == 0 || wrongAns4 == 0){
-        if(wrongAns1 == wrongAns2){
-            wrongAns1 = Math.floor(Math.random() * 16);
-            wrongAns2 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns1 == wrongAns3){
-            wrongAns1 = Math.floor(Math.random() * 16);
-            wrongAns3 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns1 == wrongAns4){
-            wrongAns1 = Math.floor(Math.random() * 16);
-            wrongAns4 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns2 == wrongAns3){
-            wrongAns2 = Math.floor(Math.random() * 16);
-            wrongAns3 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns2 == wrongAns4){
-            wrongAns2 = Math.floor(Math.random() * 16);
-            wrongAns4 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns3 == wrongAns4){
-            wrongAns1 = Math.floor(Math.random() * 16);
-            wrongAns2 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns1 == correctAnswer){
-            wrongAns1 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns2 == correctAnswer){
-            wrongAns2 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns3 == correctAnswer){
-            wrongAns3 = Math.floor(Math.random() * 16);
-        }
-        if(wrongAns4 == correctAnswer){
-            wrongAns4 = Math.floor(Math.random() * 16);
-        }
-    }
-    
-    //bai ban
-    if(wrongAns1 == 0){
-        wrongImg1 = "./img/Mahjong Tile 29.png";
-    }
-    if(wrongAns2 == 0){
-        wrongImg2 = "./img/Mahjong Tile 29.png";
-    }
-    if(wrongAns3 == 0){
-        wrongImg3 = "./img/Mahjong Tile 29.png";
-    }
-    if(wrongAns4 == 0){
-        wrongImg4 = "./img/Mahjong Tile 29.png";
-    }
-
-    //dong
-    if(wrongAns1 == 10){
-        wrongImg1 = "./img/Mahjong Tile 31.png";
-    }
-    if(wrongAns2 == 10){
-        wrongImg2 = "./img/Mahjong Tile 31.png";
-    }
-    if(wrongAns3 == 10){
-        wrongImg3 = "./img/Mahjong Tile 31.png";
-    }
-    if(wrongAns4 == 10){
-        wrongImg4 = "./img/Mahjong Tile 31.png";
-    }
-    //nan
-    if(wrongAns1 == 11){
-        wrongImg1 = "./img/Mahjong Tile 32.png";
-    }
-    if(wrongAns2 == 11){
-        wrongImg2 = "./img/Mahjong Tile 32.png";
-    }
-    if(wrongAns3 == 11){
-        wrongImg3 = "./img/Mahjong Tile 32.png";
-    }
-    if(wrongAns4 == 11){
-        wrongImg4 = "./img/Mahjong Tile 32.png";
-    }
-    //xi
-    if(wrongAns1 == 12){
-        wrongImg1 = "./img/Mahjong Tile 32.png";
-    }
-    if(wrongAns2 == 12){
-        wrongImg2 = "./img/Mahjong Tile 32.png";
-    }
-    if(wrongAns3 == 12){
-        wrongImg3 = "./img/Mahjong Tile 32.png";
-    }
-    if(wrongAns4 == 12){
-        wrongImg4 = "./img/Mahjong Tile 32.png";
-    }
-    //bei
-    if(wrongAns1 == 13){
-        wrongImg1 = "./img/Mahjong Tile 34.png";
-    }
-    if(wrongAns2 == 13){
-        wrongImg2 = "./img/Mahjong Tile 34.png";
-    }
-    if(wrongAns3 == 13){
-        wrongImg3 = "./img/Mahjong Tile 34.png";
-    }
-    if(wrongAns4 == 13){
-        wrongImg4 = "./img/Mahjong Tile 34.png";
-    }
-    //hong zhong
-    if(wrongAns1 == 14){
-        wrongImg1 = "./img/Mahjong Tile 28.png";
-    }
-    if(wrongAns2 == 14){
-        wrongImg2 = "./img/Mahjong Tile 28.png";
-    }
-    if(wrongAns3 == 14){
-        wrongImg3 = "./img/Mahjong Tile 28.png";
-    }
-    if(wrongAns4 == 14){
-        wrongImg4 = "./img/Mahjong Tile 28.png";
-    }
-    //fa cai
-    if(wrongAns1 == 15){
-        wrongImg1 = "./img/Mahjong Tile 30.png";
-    }
-    if(wrongAns2 == 15){
-        wrongImg2 = "./img/Mahjong Tile 30.png";
-    }
-    if(wrongAns3 == 15){
-        wrongImg3 = "./img/Mahjong Tile 30.png";
-    }
-    if(wrongAns4 == 15){
-        wrongImg4 = "./img/Mahjong Tile 30.png";
-    }
-    
-    if(wrongPattern4 == 0){
-        //tong
-        if(wrongAns4 == 1){
-            wrongImg4 = "./img/Mahjong Tile 1.png";
-        }
-        if(wrongAns4 == 2){
-            wrongImg4 = "./img/Mahjong Tile 2.png";
-        }
-        if(wrongAns4 == 3){
-            wrongImg4 = "./img/Mahjong Tile 3.png";
-        }
-        if(wrongAns4 == 4){
-            wrongImg4 = "./img/Mahjong Tile 4.png";
-        }
-        if(wrongAns4 == 5){
-            wrongImg4 = "./img/Mahjong Tile 5.png";
-        }
-        if(wrongAns4 == 6){
-            wrongImg4 = "./img/Mahjong Tile 6.png";
-        }
-        if(wrongAns4 == 7){
-            wrongImg4 = "./img/Mahjong Tile 7.png";
-        }
-        if(wrongAns4 == 8){
-            wrongImg4 = "./img/Mahjong Tile 8.png";
-        }
-        if(wrongAns4 == 9){
-            wrongImg4 = "./img/Mahjong Tile 9.png";
-        }
-    }
-    if(wrongPattern3 == 0){
-        //tong
-        if(wrongAns3 == 1){
-            wrongImg3 = "./img/Mahjong Tile 1.png";
-        }
-        if(wrongAns3 == 2){
-            wrongImg3 = "./img/Mahjong Tile 2.png";
-        }
-        if(wrongAns3 == 3){
-            wrongImg3 = "./img/Mahjong Tile 3.png";
-        }
-        if(wrongAns3 == 4){
-            wrongImg3 = "./img/Mahjong Tile 4.png";
-        }
-        if(wrongAns3 == 5){
-            wrongImg3 = "./img/Mahjong Tile 5.png";
-        }
-        if(wrongAns3 == 6){
-            wrongImg3 = "./img/Mahjong Tile 6.png";
-        }
-        if(wrongAns3 == 7){
-            wrongImg3 = "./img/Mahjong Tile 7.png";
-        }
-        if(wrongAns3 == 8){
-            wrongImg3 = "./img/Mahjong Tile 8.png";
-        }
-        if(wrongAns3 == 9){
-            wrongImg3 = "./img/Mahjong Tile 9.png";
-        }
-    }
-    if(wrongPattern1 == 0){
-        //tong
-        if(wrongAns1 == 1){
-            wrongImg1 = "./img/Mahjong Tile 1.png";
-        }
-        if(wrongAns1 == 2){
-            wrongImg1 = "./img/Mahjong Tile 2.png";
-        }
-        if(wrongAns1 == 3){
-            wrongImg1 = "./img/Mahjong Tile 3.png";
-        }
-        if(wrongAns1 == 4){
-            wrongImg1 = "./img/Mahjong Tile 4.png";
-        }
-        if(wrongAns1 == 5){
-            wrongImg1 = "./img/Mahjong Tile 5.png";
-        }
-        if(wrongAns1 == 6){
-            wrongImg1 = "./img/Mahjong Tile 6.png";
-        }
-        if(wrongAns1 == 7){
-            wrongImg1 = "./img/Mahjong Tile 7.png";
-        }
-        if(wrongAns1 == 8){
-            wrongImg1 = "./img/Mahjong Tile 8.png";
-        }
-        if(wrongAns1 == 9){
-            wrongImg1 = "./img/Mahjong Tile 9.png";
-        }
-    }
-    if(wrongPattern2 == 0){
-        //tong
-        if(wrongAns2 == 1){
-            wrongImg2 = "./img/Mahjong Tile 1.png";
-        }
-        if(wrongAns2 == 2){
-            wrongImg2 = "./img/Mahjong Tile 2.png";
-        }
-        if(wrongAns2 == 3){
-            wrongImg2 = "./img/Mahjong Tile 3.png";
-        }
-        if(wrongAns2 == 4){
-            wrongImg2 = "./img/Mahjong Tile 4.png";
-        }
-        if(wrongAns2 == 5){
-            wrongImg2 = "./img/Mahjong Tile 5.png";
-        }
-        if(wrongAns2 == 6){
-            wrongImg2 = "./img/Mahjong Tile 6.png";
-        }
-        if(wrongAns2 == 7){
-            wrongImg2 = "./img/Mahjong Tile 7.png";
-        }
-        if(wrongAns2 == 8){
-            wrongImg2 = "./img/Mahjong Tile 8.png";
-        }
-        if(wrongAns2 == 9){
-            wrongImg2 = "./img/Mahjong Tile 9.png";
-        }
-    }
-    if(wrongPattern2 == 1)
-    {
-        //wan
-        if(wrongAns2 == 1){
-            wrongImg2 = "./img/Mahjong Tile 10.png";
-        }
-        if(wrongAns2 == 2){
-            wrongImg2 = "./img/Mahjong Tile 11.png";
-        }
-        if(wrongAns2 == 3){
-            wrongImg2 = "./img/Mahjong Tile 12.png";
-        }
-        if(wrongAns2 == 4){
-            wrongImg2 = "./img/Mahjong Tile 13.png";
-        }
-        if(wrongAns2 == 5){
-            wrongImg2 = "./img/Mahjong Tile 14.png";
-        }
-        if(wrongAns2 == 6){
-            wrongImg2 = "./img/Mahjong Tile 15.png";
-        }
-        if(wrongAns2 == 7){
-            wrongImg2 = "./img/Mahjong Tile 16.png";
-        }
-        if(wrongAns2 == 8){
-            wrongImg2 = "./img/Mahjong Tile 17.png";
-        }
-        if(wrongAns2 == 9){
-            wrongImg2 = "./img/Mahjong Tile 18.png";
-        }
-    }
-    if(wrongPattern3 == 1)
-    {
-        //wan
-        if(wrongAns3 == 1){
-            wrongImg3 = "./img/Mahjong Tile 10.png";
-        }
-        if(wrongAns3 == 2){
-            wrongImg3 = "./img/Mahjong Tile 11.png";
-        }
-        if(wrongAns2 == 3){
-            wrongImg2 = "./img/Mahjong Tile 12.png";
-        }
-        if(wrongAns3 == 3){
-            wrongImg3 = "./img/Mahjong Tile 12.png";
-        }
-        if(wrongAns3 == 4){
-            wrongImg3 = "./img/Mahjong Tile 13.png";
-        }
-        if(wrongAns2 == 5){
-            wrongImg2 = "./img/Mahjong Tile 14.png";
-        }
-        if(wrongAns3 == 5){
-            wrongImg3 = "./img/Mahjong Tile 14.png";
-        }
-        if(wrongAns3 == 6){
-            wrongImg3 = "./img/Mahjong Tile 15.png";
-        }
-        if(wrongAns3 == 7){
-            wrongImg3 = "./img/Mahjong Tile 16.png";
-        }
-        if(wrongAns3 == 8){
-            wrongImg3 = "./img/Mahjong Tile 17.png";
-        }
-        if(wrongAns3 == 9){
-            wrongImg3 = "./img/Mahjong Tile 18.png";
-        }
-    }
-    if(wrongPattern4 == 1)
-    {
-        //wan
-        if(wrongAns4 == 1){
-            wrongImg4 = "./img/Mahjong Tile 10.png";
-        }
-        if(wrongAns4 == 2){
-            wrongImg4 = "./img/Mahjong Tile 11.png";
-        }
-        if(wrongAns4 == 3){
-            wrongImg4 = "./img/Mahjong Tile 12.png";
-        }
-        if(wrongAns4 == 4){
-            wrongImg4 = "./img/Mahjong Tile 13.png";
-        }
-        if(wrongAns4 == 5){
-            wrongImg4 = "./img/Mahjong Tile 14.png";
-        }
-        if(wrongAns4 == 6){
-            wrongImg4 = "./img/Mahjong Tile 15.png";
-        }
-        if(wrongAns4 == 7){
-            wrongImg4 = "./img/Mahjong Tile 16.png";
-        }
-        if(wrongAns4 == 8){
-            wrongImg4 = "./img/Mahjong Tile 17.png";
-        }
-        if(wrongAns4 == 9){
-            wrongImg4 = "./img/Mahjong Tile 18.png";
-        }
-    }
-    if(wrongPattern1 == 1)
-    {
-        //wan
-        if(wrongAns1 == 1){
-            wrongImg1 = "./img/Mahjong Tile 10.png";
-        }
-        if(wrongAns1 == 2){
-            wrongImg1 = "./img/Mahjong Tile 11.png";
-        }
-        if(wrongAns1 == 3){
-            wrongImg1 = "./img/Mahjong Tile 12.png";
-        }
-        if(wrongAns1 == 4){
-            wrongImg1 = "./img/Mahjong Tile 13.png";
-        }
-        if(wrongAns1 == 5){
-            wrongImg1 = "./img/Mahjong Tile 14.png";
-        }
-        if(wrongAns1 == 6){
-            wrongImg1 = "./img/Mahjong Tile 15.png";
-        }
-        if(wrongAns1 == 7){
-            wrongImg1 = "./img/Mahjong Tile 16.png";
-        }
-        if(wrongAns1 == 8){
-            wrongImg1 = "./img/Mahjong Tile 17.png";
-        }
-        if(wrongAns1 == 9){
-            wrongImg1 = "./img/Mahjong Tile 18.png";
-        }
-    }
-    if(wrongPattern1 == 2){
-        //shou
-        if(wrongAns1 == 1){
-            wrongImg1 = "./img/Mahjong Tile 19.png";
-        }
-        if(wrongAns1 == 2){
-            wrongImg1 = "./img/Mahjong Tile 20.png";
-        }
-        if(wrongAns1 == 3){
-            wrongImg1 = "./img/Mahjong Tile 21.png";
-        }
-        if(wrongAns1 == 4){
-            wrongImg1 = "./img/Mahjong Tile 22.png";
-        }
-        if(wrongAns1 == 5){
-            wrongImg1 = "./img/Mahjong Tile 23.png";
-        }
-        if(wrongAns1 == 6){
-            wrongImg1 = "./img/Mahjong Tile 24.png";
-        }
-        if(wrongAns1 == 7){
-            wrongImg1 = "./img/Mahjong Tile 25.png";
-        }
-        if(wrongAns1 == 8){
-            wrongImg1 = "./img/Mahjong Tile 26.png";
-        }
-        if(wrongAns1 == 9){
-            wrongImg1 = "./img/Mahjong Tile 27.png";
-        }
-    }
-    if(wrongPattern2 == 2){
-        //shou
-        if(wrongAns2 == 1){
-            wrongImg2 = "./img/Mahjong Tile 19.png";
-        }
-        if(wrongAns2 == 2){
-            wrongImg2 = "./img/Mahjong Tile 20.png";
-        }
-        if(wrongAns2 == 3){
-            wrongImg2 = "./img/Mahjong Tile 21.png";
-        }
-        if(wrongAns2 == 4){
-            wrongImg2 = "./img/Mahjong Tile 22.png";
-        }
-        if(wrongAns2 == 5){
-            wrongImg2 = "./img/Mahjong Tile 23.png";
-        }
-        if(wrongAns2 == 6){
-            wrongImg2 = "./img/Mahjong Tile 24.png";
-        }
-        if(wrongAns2 == 7){
-            wrongImg2 = "./img/Mahjong Tile 25.png";
-        }
-        if(wrongAns2 == 8){
-            wrongImg2 = "./img/Mahjong Tile 26.png";
-        }
-        if(wrongAns2 == 9){
-            wrongImg2 = "./img/Mahjong Tile 27.png";
-        }
-    }
-    if(wrongPattern3 == 2){
-        //shou
-        if(wrongAns3 == 1){
-            wrongImg3 = "./img/Mahjong Tile 19.png";
-        }
-        if(wrongAns3 == 2){
-            wrongImg3 = "./img/Mahjong Tile 20.png";
-        }
-        if(wrongAns3 == 3){
-            wrongImg3 = "./img/Mahjong Tile 21.png";
-        }
-        if(wrongAns3 == 4){
-            wrongImg3 = "./img/Mahjong Tile 22.png";
-        }
-        if(wrongAns3 == 5){
-            wrongImg3 = "./img/Mahjong Tile 23.png";
-        }
-        if(wrongAns3 == 6){
-            wrongImg3 = "./img/Mahjong Tile 24.png";
-        }
-        if(wrongAns3 == 7){
-            wrongImg3 = "./img/Mahjong Tile 25.png";
-        }
-        if(wrongAns3 == 8){
-            wrongImg3 = "./img/Mahjong Tile 26.png";
-        }
-        if(wrongAns3 == 9){
-            wrongImg3 = "./img/Mahjong Tile 27.png";
-        }
-    }
-    if(wrongPattern4 == 2){
-        //shou
-        if(wrongAns4 == 1){
-            wrongImg4 = "./img/Mahjong Tile 19.png";
-        }
-        if(wrongAns4 == 2){
-            wrongImg4 = "./img/Mahjong Tile 20.png";
-        }
-        if(wrongAns4 == 3){
-            wrongImg4 = "./img/Mahjong Tile 21.png";
-        }
-        if(wrongAns4 == 4){
-            wrongImg4 = "./img/Mahjong Tile 22.png";
-        }
-        if(wrongAns4 == 5){
-            wrongImg4 = "./img/Mahjong Tile 23.png";
-        }
-        if(wrongAns4 == 6){
-            wrongImg4 = "./img/Mahjong Tile 24.png";
-        }
-        if(wrongAns4 == 7){
-            wrongImg4 = "./img/Mahjong Tile 25.png";
-        }
-        if(wrongAns4 == 8){
-            wrongImg4 = "./img/Mahjong Tile 26.png";
-        }
-        if(wrongAns4 == 9){
-            wrongImg4 = "./img/Mahjong Tile 27.png";
-        }
-    }
-    console.log(wrongPattern1, wrongAns1)
-    console.log(wrongPattern2, wrongAns2)
-    console.log(wrongPattern3, wrongAns3)
-    console.log(wrongPattern4, wrongAns4)
-
-
-    ans1.innerHTML = `<img src="${wrongImg1}"/>`
-    ans2.innerHTML = `<img src="${wrongImg2}"/>`
-    ans3.innerHTML = `<img src="${wrongImg3}"/>`
-    ans4.innerHTML = `<img src="${wrongImg4}"/>`
-    
-    let correctAnswerIndex = Math.floor(Math.random() * 4)+1;
-    let correctAnswerId = "btn" + correctAnswerIndex;
-    document.getElementById(correctAnswerId).innerHTML = `<img src="${correctImg}"/>`
-    if(correctAnswerIndex == 1){
-        wrongAns1 = correctAnswer;
-        wrongPattern1 = pattern;
-        wrongImg1 = correctImg
-    }
-    if(correctAnswerIndex == 2){
-        wrongAns2 = correctAnswer;
-        wrongPattern2 = pattern;
-        wrongImg2 = correctImg
-    }
-    if(correctAnswerIndex == 3){
-        wrongAns3 = correctAnswer;
-        wrongPattern3 = pattern;
-        wrongImg3 = correctImg
-    }
-    if(correctAnswerIndex == 4){
-        wrongAns4 = correctAnswer;
-        wrongPattern4 = pattern;
-        wrongImg4 = correctImg
-    }
-
 }
