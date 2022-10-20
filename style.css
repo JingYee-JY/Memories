@@ -22,6 +22,16 @@ body {
     height: auto;
 }
 
+.game{
+    width: 100%;
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
 .selection p{
     font-size: 20px;
     color: #552E00;
@@ -110,6 +120,28 @@ body {
 .startButton p, .startGame p,.easy p, .normal p, .hard p, .againButton p, .homeButton p {
     margin: 3%;
     margin-right: 6%;
+}
+
+.startButton:active,.startGame:active,.readyButton:active,.easy:active,.normal:active,.hard:active,.againButton:active,.homeButton:active{
+    animation: animate 0.2s;
+}
+
+@keyframes animate{
+    0%{
+        transform: rotate(0deg) translateX(0px);
+    }
+    25%{
+        transform: rotate(-20deg) translateX(-10px);
+    }
+    50%{
+        transform: rotate(0deg) translateX(0px);
+    }
+    75%{
+        transform: rotate(20deg) translateX(10px);
+    }
+    100%{
+        transform: rotate(0deg) translateX(0px);
+    }
 }
 
 .words{
@@ -203,10 +235,6 @@ button{
     height: 90px !important;
 }
 
-.question{
-    opacity: 30%;
-}
-
 #pieces{
     width: 330px;
     height: auto;
@@ -215,9 +243,7 @@ button{
     margin: 0 auto;
     display: grid;
     flex-wrap: wrap;
-    margin-top: 70px;
     margin-bottom: 5px;
-    background-color: #9B6842;
     grid-template-columns: repeat(3, 105px) !important;
 }
 
@@ -266,6 +292,27 @@ button{
     margin-bottom: 5%;
 }
 
+.pop{
+    background-color: white;
+    position: absolute;
+    width: 60%;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.pop img{
+    width: 60%;
+}
+
+.pop p{
+    margin: 10px auto;
+}
+
   /*mobile*/
 @media screen and (max-width: 767px){
     .startButton, .easy, .normal, .hard, .homeButton, .againButton {
@@ -306,7 +353,10 @@ button{
     .round{
         font-size: 50px;
     }
-
+    .pop p{
+        font-size: 40px;
+        margin: 10px auto;
+    }
     #board{
         width: 510px;
         height: 510px;
@@ -320,11 +370,10 @@ button{
         width: 700px;
         height: auto;
         gap: 1%;
-        padding: 15px s10px;
+        padding: 15px 10px;
         margin: 0 auto;
         display: grid;
         flex-wrap: wrap;
-        margin-top: 100px;
         grid-template-columns: repeat(3, 230px) !important;
     }
 
@@ -388,9 +437,6 @@ button{
     }
     .final .end{
         max-width: 360px;
-    }
-    #pieces{
-        margin-top: 15px;
     }
     .final .end{
         margin-bottom: 20px;

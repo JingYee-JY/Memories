@@ -36,6 +36,12 @@
         </div>
         <div id="pieces">
         </div>
+        <div class="pop hide">
+            <div class="detail">
+                <p>Try Again!</p>
+                <img src="./img//wrong.png">
+            </div>
+        </div>
     </div>
     <div class="final hide">
         <div class="game-title endTitle"><p>Memories</p></div>
@@ -44,11 +50,17 @@
             <button class="againButton">
                 <p class="words"><img src="./img/again.png" class="arrowHead">Play again</p>
             </button>
-            <button class="homeButton" onclick="window.location.href='https://gimme.sg/activations/dementia/';">
+            <button class="homeButton">
                 <p class="words"><img src="./img/home.png" class="arrowHead">Back to home</p>
             </button>
         </div>
     </div>
+
+    <audio id="click" src="sound/click.wav"></audio>
+    <audio id="clap" src="./sound/clap.wav"></audio>
+    <audio id="completed" src="sound/completed.wav"></audio>
+    <audio id="lose" src="./sound/lose.wav"></audio>
+
     <script src="script.js"></script>
 </body>
 </html>
